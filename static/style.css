@@ -1,0 +1,205 @@
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  background: url("/static/BGG.webp") no-repeat center center fixed;
+  background-size: cover;
+   background-attachment: fixed;
+  background-position: center;
+  color: #222;
+}
+
+/* Main container with glass effect */
+.container {
+  max-width: 1400px;
+  margin: 50px auto;
+  background: rgba(97, 100, 97, 0.85);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  backdrop-filter: blur(1px);
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h1 {
+  margin-bottom: 20px;
+  color: #ffffff;
+  font-size: 48px;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.15);
+}
+
+/* Inputs and dropdowns */
+select, input {
+  width: 80%;
+  padding: 12px;
+  margin: 12px 0;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+select:focus, input:focus {
+  border-color: #0078d7;
+  box-shadow: 0 0 8px rgba(0,120,215,0.4);
+  outline: none;
+}
+
+/* Buttons */
+button {
+  padding: 12px 25px;
+  background: linear-gradient(135deg, #000000, #7d7d7d);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #000000, #ffffff);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+}
+
+/* Results section */
+.results {
+  margin-top: 30px;
+}
+
+/* Table styling */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+th, td {
+  padding: 14px;
+  border: 1px solid #ddd;
+  text-align: center;
+  font-size: 15px;
+}
+
+th {
+  background: linear-gradient(135deg, #c3e6cb, #d4edda);
+  color: #155724;
+  font-weight: 600;
+}
+
+th img {
+  width: 28px;
+  height: 28px;
+  display: block;
+  margin: 0 auto 5px;
+}
+
+tr:nth-child(even) {
+  background: #f9f9f9;
+}
+
+tr:nth-child(odd) {
+  background: #ffffff;
+}
+
+tr:hover {
+  background: #e6f7ff;
+  transition: background 0.3s ease;
+}
+
+/* Add subtle animation to table rows */
+tr {
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+tr:hover {
+  transform: scale(1.01);
+}
+
+.eco-fact-box {
+  margin-top: 30px;
+  padding: 15px;
+  background: linear-gradient(135deg, #d4edda, #c3e6cb);
+  border: 2px solid #29a847;
+  border-radius: 10px;
+  font-size: 16px;
+  color: #155724;
+  font-weight: 500;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* Two-panel layout */
+.container {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  gap: 20px;
+  transition: all 0.5s ease;
+  max-width: 1400px;          /* keep the whole layout contained */
+  margin: 50px auto;          /* center the container */
+}
+
+/* Left panel (form box) */
+.left-panel {
+  flex: 1;
+  max-width: 600px;
+  text-align: center;
+  transition: all 0.5s ease;
+}
+
+/* Right panel (charts) adjustments */
+.right-panel {
+  flex: 2;
+  background: #c3e6cb;
+  border-radius: 10px;
+  padding: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  display: none; /* hidden by default */
+  animation: fadeIn 0.8s ease-in-out;
+  max-width: 700px;           /* limit chart panel width */
+  overflow-x: auto;           /* scroll if too wide */
+}
+
+/* Chart containers */
+#barChart, #lineChart, #pieChart {
+  width: 100%;                /* charts respect parent width */
+  max-width: 100%;            /* prevent overflow */
+  height: 320px;              /* consistent height */
+  margin-bottom: 25px;        /* spacing between charts */
+}
+
+/* When charts are shown */
+.show-charts .left-panel {
+  transform: translateX(25px);
+}
+
+.show-charts .right-panel {
+  display: block;   /* <-- critical: reveals charts panel */
+}
+
+/* Responsive tweak for smaller screens */
+@media screen and (max-width: 768px) {
+  .container {
+    flex-direction: column;   /* stack panels vertically */
+    align-items: center;
+  }
+
+  .right-panel {
+    max-width: 100%;          /* full width on mobile */
+  }
+
+  #barChart, #lineChart, #pieChart {
+    height: 250px;
+  }
+}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EcoPackAI</title>
+  <style>
+  .footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+
+    color: #ffffff;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.85),
+      rgba(0, 0, 0, 0.55)
+    );
+
+    padding: 8px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+
+    z-index: 1000;
+    letter-spacing: 0.3px;
+  }
+</style>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <!-- Load Plotly before your script -->
+  <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="left-panel" id="leftPanel">
+      <h1>EcoPackAI</h1>
+
+      <select id="productType">
+        <option value="">Select Product Category</option>
+        <option value="food_beverage">Food & Beverage</option>
+        <option value="pharma_health">Pharmaceuticals & Healthcare</option>
+        <option value="cosmetics">Cosmetics & Personal Care</option>
+        <option value="electronics_goods">Electronics & Consumer Goods</option>
+        <option value="clothing_textiles">Clothing & Textiles</option>
+        <option value="industrial_chemical">Industrial & Chemical Products</option>
+        <option value="automotive">Automotive Parts & Accessories</option>
+        <option value="luxury_specialty">Luxury & Specialty Items</option>
+        <option value="agriculture_raw">Agricultural & Raw Materials</option>
+        <option value="ecommerce_logistics">E-commerce & Logistics Goods</option>
+      </select>
+
+      <!-- Input is in kilograms to match Flask -->
+      <input type="number" id="productWeight" placeholder="Enter product weight (kg)" min="0" step="0.1">
+
+      <button onclick="getPrediction()">Predict Best Materials</button>
+      <button id="showChartsBtn">Show Charts</button>
+
+      <div class="results" id="results"></div>
+      <!-- Download Report Button -->
+      <div style="margin-top: 15px;">
+        <button
+          type="button"
+          class="btn btn-success"
+            onclick="downloadReport()">
+            📥 Download Report
+      </button>
+      </div>
+      <div class="eco-fact-box" id="ecoFactBox">
+        🌍 Eco Fact: Sustainable packaging reduces waste and carbon footprint.
+      </div>
+    </div>
+
+    <!-- Right panel for charts -->
+    <div class="right-panel" id="rightPanel">
+      <h2>Data Visuals</h2>
+      <div id="barChart"></div>
+      <div id="lineChart"></div>
+      <div id="pieChart"></div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <footer class="footer">
+  © 2026 EcoPackAI. All rights reserved.
+</footer>
+</body>
+</html>
