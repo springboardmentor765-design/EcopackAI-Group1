@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.env
+EcoPackAI_Report.pdf
+*_chart.png
+*.png
+*.pdf
+co2_chart.png
+cost_chart.png
+suitability_chart.png
