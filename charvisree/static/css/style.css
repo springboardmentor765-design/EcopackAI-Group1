@@ -1,0 +1,269 @@
+/* ===============================
+   GLOBAL
+================================= */
+body {
+    background: linear-gradient(135deg, #eef5f0, #f8fbf9);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #333;
+    overflow-x: hidden;
+}
+
+/* Smooth transitions globally */
+* {
+    transition: all 0.2s ease-in-out;
+}
+
+/* Make full width layout */
+.container-fluid {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+/* ===============================
+   NAVBAR
+================================= */
+.navbar {
+    padding: 14px 30px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: 0.5px;
+}
+
+/* ===============================
+   HERO SECTION
+================================= */
+.hero {
+    background: linear-gradient(135deg, #198754, #20c997);
+    color: white;
+    padding: 70px 40px;
+    border-radius: 20px;
+    margin-bottom: 50px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.hero h1 {
+    font-weight: 700;
+    font-size: 2.2rem;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    opacity: 0.95;
+}
+
+/* ===============================
+   CARDS
+================================= */
+.card {
+    border-radius: 18px;
+    border: none;
+    background: #ffffff;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.06);
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.12);
+}
+
+/* Recommendation cards */
+#topResults .card {
+    border-left: 5px solid #198754;
+}
+
+/* ===============================
+   BUTTONS
+================================= */
+.btn-lg {
+    padding: 12px 45px;
+    border-radius: 30px;
+    font-weight: 600;
+}
+
+.btn-success {
+    background-color: #198754;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #157347;
+}
+
+.btn-warning {
+    font-weight: 600;
+}
+
+/* ===============================
+   FORM INPUTS
+================================= */
+.form-control,
+.form-select {
+    border-radius: 12px;
+}
+
+.form-control:focus,
+.form-select:focus {
+    box-shadow: 0 0 0 3px rgba(25,135,84,0.15);
+    border-color: #198754;
+}
+
+/* ===============================
+   TABLE
+================================= */
+.table {
+    background-color: white;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+thead {
+    font-weight: 600;
+    background-color: #e8f5e9;
+}
+
+tbody tr:hover {
+    background-color: #f0fdf4;
+}
+
+/* Make comparison table scroll inside card */
+.table-responsive {
+    max-height: 420px;
+    overflow-y: auto;
+}
+
+/* ===============================
+   BEST RESULT BOX
+================================= */
+#bestResult {
+    font-size: 1.4rem;
+    font-weight: 600;
+    border-radius: 16px;
+    box-shadow: 0 6px 20px rgba(25,135,84,0.25);
+}
+
+/* ===============================
+   LOADING SPINNER
+================================= */
+#loadingSpinner {
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+/* ===============================
+   DASHBOARD METRIC CARDS
+================================= */
+.metric-card {
+    background: white;
+    border-left: 6px solid #198754;
+    border-radius: 18px;
+    padding: 20px;
+}
+
+.metric-card h6 {
+    font-weight: 600;
+    color: #666;
+    margin-bottom: 10px;
+}
+
+.metric-card h2 {
+    font-weight: 700;
+    color: #198754;
+    font-size: 2rem;
+}
+
+/* ===============================
+   CHART AREA
+================================= */
+canvas {
+    width: 100% !important;
+    height: 360px !important;
+    background: white;
+    padding: 25px;
+    border-radius: 18px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+}
+
+/* Radar slightly bigger */
+#chartEnvironmental {
+    height: 420px !important;
+}
+
+/* ===============================
+   DASHBOARD GRID SPACING
+================================= */
+.row.g-4 {
+    margin-bottom: 10px;
+}
+
+.card h6 {
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+/* ===============================
+   SECTION SPACING
+================================= */
+.section {
+    margin-top: 50px;
+}
+
+/* ===============================
+   EXPORT BUTTON AREA
+================================= */
+#dashboardSection .btn {
+    border-radius: 25px;
+    padding: 8px 20px;
+}
+
+/* ===============================
+   REMOVE WHITE SIDE MARGINS
+================================= */
+body,
+html {
+    width: 100%;
+}
+
+/* ===============================
+   RESPONSIVE
+================================= */
+@media (max-width: 1200px) {
+
+    .container-fluid {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    canvas {
+        height: 300px !important;
+    }
+}
+
+@media (max-width: 992px) {
+
+    .hero {
+        padding: 50px 25px;
+    }
+
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .btn-lg {
+        width: 100%;
+    }
+
+    .card {
+        margin-bottom: 20px;
+    }
+
+    canvas {
+        height: 280px !important;
+    }
+}

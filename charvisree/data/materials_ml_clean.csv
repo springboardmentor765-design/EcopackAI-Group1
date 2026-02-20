@@ -1,0 +1,11 @@
+material_type,strength_mpa,weight_capacity_kg,moisture_barrier,temp_resistance,rigidity,biodegradability_score,recyclability_pct,co2_emission_per_kg,cost_inr_per_kg
+Paperboard,20,10,0.1,0.2,0.3,8,92,0.7,45
+Corrugated Cardboard,25,25,0.2,0.3,0.4,8,90,0.6,40
+Molded Pulp,30,30,0.3,0.4,0.5,9,94,0.4,35
+LDPE Plastic,35,30,0.9,0.6,0.4,2,65,1.8,70
+HDPE Plastic,45,60,0.95,0.7,0.6,3,75,2.2,80
+PET Plastic,50,50,0.9,0.7,0.6,3,70,2.8,85
+Biodegradable PLA,40,40,0.85,0.6,0.5,9,85,1.2,110
+Glass Packaging,70,120,1.0,0.9,0.9,1,60,4.5,120
+Aluminium Can,80,150,1.0,0.9,0.9,1,85,6.5,150
+Steel Tinplate,90,300,1.0,1.0,1.0,1,88,7.5,160
