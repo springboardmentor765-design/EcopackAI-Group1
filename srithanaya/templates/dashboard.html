@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>EcoPackAI Dashboard</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body style="background:#0f172a;color:white;font-family:Arial">
+
+<div style="width:90%;margin:auto">
+
+<h1>🌍 EcoPackAI Sustainability Dashboard</h1>
+
+<h2>Top Recommended Packaging Materials</h2>
+
+<div style="display:flex;gap:20px;">
+{% for r in recs %}
+<div style="background:white;color:black;padding:15px;border-radius:10px;width:200px;text-align:center;box-shadow:0 0 10px rgba(0,0,0,0.3)">
+    <h3>{{ r.material_type }}</h3>
+</div>
+{% endfor %}
+</div>
+
+<hr>
+
+<h2>📊 Sustainability Charts</h2>
+
+<img src="/static/exports/bar.png" width="500"><br><br>
+<img src="/static/exports/pie.png" width="500">
+
+<br><br>
+
+<a href="/export_pdf">
+<button style="padding:10px 20px;background:green;color:white;border:none;border-radius:5px;font-size:16px">
+📥 Download PDF Report
+</button>
+</a>
+
+<a href="/">
+<button style="padding:10px 20px;background:gray;color:white;border:none;border-radius:5px;font-size:16px">
+⬅ Back
+</button>
+</a>
+
+</div>
+
+</body>
+</html>
