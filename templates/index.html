@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>EcoPackAI</title>
+<link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+<div class="card">
+<h1>🌿 AI Powered Sustainable Packaging Recommendation System</h1>
+
+<form action="/recommend" method="post">
+
+<label>Product Category</label>
+<select name="category">
+{% for c in categories %}
+<option>{{ c }}</option>
+{% endfor %}
+</select>
+
+<label>Weight (kg)</label>
+<input type="number" step="0.01" name="weight" required>
+
+<button type="submit">Get Recommendations</button>
+
+</form>
+</div>
+
+</body>
+</html>

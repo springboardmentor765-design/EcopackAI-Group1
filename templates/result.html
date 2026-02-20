@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EcoPackAI Results</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+
+<div class="container" id="report">
+
+    <h1>🌍 AI Sustainable Packaging Recommendations</h1>
+    <h3>Product Category: {{ product }} | Weight: {{ weight }} kg</h3>
+
+    <h2>✅ Top 3 Recommended Sustainable Materials</h2>
+    <ol>
+        {% for mat in recs %}
+        <li><b>{{ mat }}</b></li>
+        {% endfor %}
+    </ol>
+
+    <!-- COST + ENV IMPACT CARDS -->
+    <div class="cards">
+        <div class="card red">
+            <h3>Cost Analysis</h3>
+            Traditional: ₹{{ cost_traditional }} <br>
+            Recommended: ₹{{ cost_recommended }} <br>
+            <b>Impact: ₹{{ cost_traditional - cost_recommended }} reduced</b>
+        </div>
+
+        <div class="card green">
+            <h3>Environmental Impact</h3>
+            Traditional: {{ env_traditional }} kg CO₂ <br>
+            Recommended: {{ env_recommended }} kg CO₂ <br>
+            <b>Impact: {{ env_traditional - env_recommended }} kg reduced</b>
+        </div>
+    </div>
+
+    <!-- DASHBOARDS -->
+    <div class="charts">
+        <canvas id="barChart"></canvas>
+        <canvas id="pieChart"></canvas>
+        <canvas id="lineChart"></canvas>
+        <canvas id="doughnutChart"></canvas>
+        <canvas id="radarChart"></canvas>
+    </div>
+
+</div>
+
+<button onclick="downloadPDF()">📥 Export Report to PDF</button>
+<a href="/">🔙 Go Back</a>
+
+<script src="/static/charts.js"></script>
+
+<script>
+function downloadPDF() {
+    var element = document.getElementById('report');
+    html2pdf().from(element).save("EcoPackAI_Report.pdf");
+}
+</script>
+
+</body>
+</html>
