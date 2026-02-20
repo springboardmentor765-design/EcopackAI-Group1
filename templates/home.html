@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPack AI - Sustainable Packaging</title>
+    <!-- Google Fonts: Poppins (Clean, Modern) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <!-- Framer Motion / Animate.css for entrance -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+</head>
+<body class="landing-page">
+
+    <!-- Background Animation Layer -->
+    <div class="leaf-container">
+        <div class="leaf l1">🍃</div>
+        <div class="leaf l2">🌿</div>
+        <div class="leaf l3">🌱</div>
+        <div class="leaf l4">🍃</div>
+        <div class="leaf l5">🌿</div>
+    </div>
+
+    <div class="landing-content text-center">
+        <h1 class="display-3 fw-bold animate__animated animate__fadeInDown text-gradient">
+            EcoPack AI
+        </h1>
+        <p class="lead animate__animated animate__fadeInUp animate__delay-1s">
+            Intelligent. Sustainable. Future-Ready.
+        </p>
+        <p class="sub-text animate__animated animate__fadeInUp animate__delay-1s">
+            AI-powered material recommendations for a greener supply chain.
+        </p>
+        
+        <div class="mt-5 animate__animated animate__zoomIn animate__delay-2s">
+            <a href="/dashboard" class="btn btn-lg btn-shine">
+                Get Started 🚀
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>

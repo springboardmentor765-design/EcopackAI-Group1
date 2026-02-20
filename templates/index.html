@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoPack AI - Dashboard</title>
+    <!-- Fonts & Bootstrap -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+    <!-- Background Animation -->
+    <div class="leaf-container">
+        <div class="leaf l1">🍃</div>
+        <div class="leaf l2">🌿</div>
+        <div class="leaf l3">🌱</div>
+        <div class="leaf l4">🍃</div>
+        <div class="leaf l5">🌿</div>
+    </div>
+
+    <!-- Sidebar Overlay (Inputs) -->
+    <div id="sidebarUI" class="sidebar-overlay">
+        <a href="javascript:void(0)" class="close-btn" onclick="toggleSidebar()">&times;</a>
+        <h3 class="mb-4 text-center">Packaging Details</h3>
+        
+        <form id="predictionForm">
+            <!-- Product Category -->
+            <div class="mb-3">
+                <label for="category" class="form-label"><i class="fas fa-tag me-2"></i>Category</label>
+                <select class="form-select" id="category">
+                    <option value="General">General Use</option>
+                    <option value="Food">Food & Beverage (Short Life)</option>
+                    <option value="Electronics">Electronics (Fragile)</option>
+                    <option value="Industrial">Industrial (Heavy)</option>
+                    <option value="Cosmetics">Cosmetics & Beauty</option>
+                    <option value="Home & Living">Home & Living</option>
+                    <option value="Pharmaceuticals">Pharmaceuticals</option>
+                </select>
+            </div>
+
+            <!-- Weight -->
+            <div class="mb-3">
+                <label for="weight" class="form-label"><i class="fas fa-weight-hanging me-2"></i>Weight (kg)</label>
+                <input type="number" class="form-control" id="weight" step="0.1" value="1.0">
+            </div>
+
+            <!-- Dimensions -->
+            <label class="form-label"><i class="fas fa-ruler-combined me-2"></i>Dimensions (cm)</label>
+            <div class="row g-2 mb-3">
+                <div class="col-4"><input type="number" class="form-control" id="dimL" placeholder="L" value="10"></div>
+                <div class="col-4"><input type="number" class="form-control" id="dimW" placeholder="W" value="10"></div>
+                <div class="col-4"><input type="number" class="form-control" id="dimH" placeholder="H" value="10"></div>
+            </div>
+
+            <!-- Fragility Slider -->
+            <div class="mb-3">
+                <label for="fragilityScore" class="form-label">
+                    <i class="fas fa-wine-glass-alt me-2"></i>Fragility (1-10): 
+                    <span id="fragilityVal" class="fw-bold text-success">5</span>
+                </label>
+                <input type="range" class="form-range" id="fragilityScore" min="1" max="10" value="5" oninput="document.getElementById('fragilityVal').innerText = this.value">
+            </div>
+
+            <!-- Shelf Life -->
+            <div class="mb-3">
+                <label for="shelfLife" class="form-label"><i class="fas fa-clock me-2"></i>Shelf Life (Days)</label>
+                <input type="number" class="form-control" id="shelfLife" value="30">
+            </div>
+
+            <!-- Actions -->
+            <div class="d-grid gap-2 mt-4">
+                <button type="submit" class="btn btn-primary btn-lg shadow-sm">
+                    <i class="fas fa-search-location me-2"></i>Find Best Material
+                </button>
+            </div>
+            
+            <div class="text-center mt-3">
+                 <small class="text-muted">EcoPack AI v2.0</small>
+            </div>
+        </form>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container-fluid p-4">
+        
+        <!-- Header (Centered) -->
+        <div class="d-flex justify-content-between align-items-center mb-4 position-relative">
+            <button class="btn btn-icon shadow-sm" onclick="toggleSidebar()">
+                <i class="fas fa-bars fa-lg"></i>
+            </button>
+            <h2 class="text-gradient mb-0 animate__animated animate__fadeIn position-absolute start-50 translate-middle-x">
+                <a href="/" style="text-decoration:none; color:inherit;">EcoPack AI</a>
+            </h2>
+            <button id="downloadReportBtn" class="btn btn-report-download shadow-sm d-none" onclick="generatePDFReport()">
+                <i class="fas fa-file-pdf me-2"></i>Download Report
+            </button>
+        </div>
+
+        <!-- Initial Placeholder State -->
+        <div id="initialState" class="text-center mt-5 pt-5 animate__animated animate__fadeIn glass-container mx-auto" style="max-width: 800px;">
+            <h3 class="text-muted mb-3">Ready to Optimize?</h3>
+            <p class="lead">Open the sidebar <i class="fas fa-bars mx-1"></i> to enter your product details.</p>
+            <!-- Generated Image Placeholder -->
+            <img src="{{ url_for('static', filename='images/eco_dashboard_illustration.png') }}" class="img-fluid rounded-3 mt-4" alt="Eco Illustration" style="max-width: 400px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
+        </div>
+
+        <!-- Results Section (Hidden Initially) -->
+        <div id="resultsSection" class="d-none">
+            
+            <!-- Top Card: The Winner -->
+            <div class="glass-container text-center animate__animated animate__zoomIn">
+                <h6 class="text-uppercase text-muted letter-spacing-2">Recommended Material</h6>
+                <h1 id="topName" class="display-3 fw-bold text-success my-3">Loading...</h1>
+                
+                <div class="row justify-content-center mt-4">
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="p-3 bg-white rounded shadow-sm">
+                            <i class="fas fa-medal fa-2x text-warning mb-2"></i>
+                            <div class="small text-muted">Suitability</div>
+                            <h4 id="topScore" class="mb-0 fw-bold">0.0</h4>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="p-3 bg-white rounded shadow-sm">
+                            <i class="fas fa-cloud fa-2x text-info mb-2"></i>
+                            <div class="small text-muted">CO₂ Impact</div>
+                            <h4 id="topCO2" class="mb-0 fw-bold">0.0</h4>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-6 mb-3">
+                        <div class="p-3 bg-white rounded shadow-sm">
+                            <i class="fas fa-coins fa-2x text-success mb-2"></i>
+                            <div class="small text-muted">Efficiency</div>
+                            <h4 id="topCost" class="mb-0 fw-bold">0.0</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts & Details -->
+            <div class="row">
+                <!-- Left: Cost vs CO2 Chart -->
+                <div class="col-lg-5 mb-4 animate__animated animate__fadeInLeft">
+                    <div class="glass-container h-100">
+                        <h5 class="mb-4">Cost vs. Impact Analysis</h5>
+                        <canvas id="mainChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Middle: Radar Profile -->
+                <div class="col-lg-4 mb-4 animate__animated animate__fadeInUp">
+                    <div class="glass-container h-100">
+                        <h5 class="mb-4">Material Profile</h5>
+                        <canvas id="radarChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Right: Suitability Distribution (New Pie Chart) -->
+                <div class="col-lg-3 mb-4 animate__animated animate__fadeInRight">
+                    <div class="glass-container h-100">
+                        <h5 class="mb-4">Top Contenders</h5>
+                        <canvas id="pieChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Table -->
+            <div class="glass-container animate__animated animate__fadeInUp">
+                <h5 class="mb-3">Full Candidate Ranking</h5>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Rank</th>
+                                <th>Material</th>
+                                <th>Suitability Score</th>
+                                <th>Biodegradability</th>
+                                <th>CO₂ Impact</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rankingTableBody">
+                            <!-- JS Populated -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div> <!-- End Results -->
+
+    </div>
+
+    <!-- Hidden PDF Report Template -->
+    <div id="pdfReportContent" style="position: absolute; left: -9999px; top: 0; width: 800px; background: #fff; padding: 40px; font-family: 'Poppins', sans-serif;">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h1 style="color: #059669; font-size: 28px; margin-bottom: 5px;">EcoPack AI</h1>
+            <p style="color: #6b7280; font-size: 14px; margin: 0;">Sustainable Packaging Analysis Report</p>
+            <hr style="border: 1px solid #d1fae5; margin-top: 15px;">
+        </div>
+
+        <div style="margin-bottom: 25px;">
+            <h3 style="color: #059669; font-size: 18px; margin-bottom: 10px;">Input Summary</h3>
+            <table id="pdfInputTable" style="width: 100%; border-collapse: collapse; font-size: 13px;">
+            </table>
+        </div>
+
+        <div style="margin-bottom: 25px;">
+            <h3 style="color: #059669; font-size: 18px; margin-bottom: 10px;">Top Recommendation</h3>
+            <div id="pdfTopCard" style="background: #ecfdf5; border-radius: 12px; padding: 20px; text-align: center;">
+            </div>
+        </div>
+
+        <div style="margin-bottom: 25px;">
+            <h3 style="color: #059669; font-size: 18px; margin-bottom: 10px;">Charts</h3>
+            <div id="pdfChartsArea" style="display: flex; gap: 15px; flex-wrap: wrap; justify-content: center;"></div>
+        </div>
+
+        <div style="margin-bottom: 25px;">
+            <h3 style="color: #059669; font-size: 18px; margin-bottom: 10px;">Material Ranking</h3>
+            <table id="pdfRankingTable" style="width: 100%; border-collapse: collapse; font-size: 12px;">
+                <thead>
+                    <tr style="background: #ecfdf5;">
+                        <th style="padding: 8px; border: 1px solid #d1fae5; text-align: left;">Rank</th>
+                        <th style="padding: 8px; border: 1px solid #d1fae5; text-align: left;">Material</th>
+                        <th style="padding: 8px; border: 1px solid #d1fae5; text-align: left;">Score</th>
+                        <th style="padding: 8px; border: 1px solid #d1fae5; text-align: left;">Biodegradability</th>
+                        <th style="padding: 8px; border: 1px solid #d1fae5; text-align: left;">CO₂ Impact</th>
+                    </tr>
+                </thead>
+                <tbody id="pdfRankingBody"></tbody>
+            </table>
+        </div>
+
+        <div style="text-align: center; color: #9ca3af; font-size: 11px; margin-top: 30px; border-top: 1px solid #e5e7eb; padding-top: 15px;">
+            <p>Generated by EcoPack AI | <span id="pdfDate"></span></p>
+            <p>This report is for informational purposes only.</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

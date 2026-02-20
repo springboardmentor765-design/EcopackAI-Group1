@@ -1,0 +1,81 @@
+
+--- Testing Scenario: Heavy Load ---
+Inputs: {'weight_capacity': 15.0, 'category': 'Industrial', 'fragility_score': 5, 'shelf_life_days': 30}
+WINNER: Aluminum Foil
+Score: 55.5 (CO2: 7.52, Cost: 3.48)
+Top 3:
+  1. Aluminum Foil (Score: 55.5)
+  2. Virgin Plastic (PP) (Score: 30.5)
+  3. Recycled Cardboard (Score: 11.4)
+
+--- Testing Scenario: Light Cosmetic ---
+Inputs: {'weight_capacity': 0.2, 'category': 'Cosmetics', 'fragility_score': 3, 'shelf_life_days': 60}
+WINNER: Mushroom Mycelium
+Score: 15.2 (CO2: 0.14, Cost: 195.38)
+Top 3:
+  1. Mushroom Mycelium (Score: 15.2)
+  2. Recycled Cardboard (Score: 9.5)
+  3. Bioplastic (PLA) (Score: 2.6)
+
+--- Testing Scenario: Fragile Electronics ---
+Inputs: {'weight_capacity': 3.0, 'category': 'Electronics', 'fragility_score': 9, 'shelf_life_days': 365}
+WINNER: Aluminum Foil
+Score: 31.0 (CO2: 3.94, Cost: 17.93)
+Top 3:
+  1. Aluminum Foil (Score: 31.0)
+  2. Virgin Plastic (PP) (Score: 18.2)
+  3. Recycled Cardboard (Score: 14.1)
+
+--- Testing Scenario: Preserved Food ---
+Inputs: {'weight_capacity': 1.0, 'category': 'Food', 'fragility_score': 2, 'shelf_life_days': 90}
+WINNER: Aluminum Foil
+Score: 30.2 (CO2: 4.11, Cost: 63.49)
+Top 3:
+  1. Aluminum Foil (Score: 30.2)
+  2. Virgin Plastic (PP) (Score: 16.1)
+  3. Mushroom Mycelium (Score: 16.0)
+
+--- Testing Scenario: Standard Parcel ---
+Inputs: {'weight_capacity': 5.0, 'category': 'General', 'fragility_score': 4, 'shelf_life_days': 15}
+WINNER: Recycled Cardboard
+Score: 41.4 (CO2: 0.7, Cost: 16.7)
+Top 3:
+  1. Recycled Cardboard (Score: 41.4)
+  2. Bioplastic (PLA) (Score: 23.1)
+  3. Mushroom Mycelium (Score: 17.3)
+
+--- Testing Scenario: Heavy Industrial Machine ---
+Inputs: {'weight_capacity': 25.0, 'category': 'Industrial', 'fragility_score': 3, 'shelf_life_days': 365}
+WINNER: Aluminum Foil
+Score: 65.5 (CO2: 12.53, Cost: 2.09)
+Top 3:
+  1. Aluminum Foil (Score: 65.5)
+  2. Virgin Plastic (PP) (Score: 37.1)
+  3. Recycled Cardboard (Score: 11.4)
+
+--- Testing Scenario: Fast Food Container ---
+Inputs: {'weight_capacity': 0.3, 'category': 'Food', 'fragility_score': 2, 'shelf_life_days': 1}
+WINNER: Mushroom Mycelium
+Score: 95.3 (CO2: 0.14, Cost: 195.38)
+Top 3:
+  1. Mushroom Mycelium (Score: 95.3)
+  2. Recycled Cardboard (Score: 94.6)
+  3. Bioplastic (PLA) (Score: 82.7)
+
+--- Testing Scenario: Luxury Cosmetic ---
+Inputs: {'weight_capacity': 0.5, 'category': 'Cosmetics', 'fragility_score': 8, 'shelf_life_days': 730}
+WINNER: Mushroom Mycelium
+Score: 15.5 (CO2: 0.14, Cost: 195.38)
+Top 3:
+  1. Mushroom Mycelium (Score: 15.5)
+  2. Recycled Cardboard (Score: 9.8)
+  3. Bioplastic (PLA) (Score: 2.9)
+
+--- Testing Scenario: Books Shipment ---
+Inputs: {'weight_capacity': 10.0, 'category': 'General', 'fragility_score': 2, 'shelf_life_days': 30}
+WINNER: Recycled Cardboard
+Score: 11.4 (CO2: 1.39, Cost: 4.05)
+Top 3:
+  1. Recycled Cardboard (Score: 11.4)
+  2. Aluminum Foil (Score: 0.5)
+  3. Bagasse (Sugarcane) (Score: 0.0)

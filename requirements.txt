@@ -1,0 +1,13 @@
+gunicorn
+flask
+pandas
+numpy
+scikit-learn
+xgboost
+lightgbm
+catboost
+joblib
+psycopg2-binary
+python-dotenv
+matplotlib
+seaborn
