@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EcoPackAI – Sustainable Packaging Intelligence</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+</head>
+<body>
+
+<!-- ================= NAVBAR ================= -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-success shadow-sm">
+    <div class="container-fluid">
+        <span class="navbar-brand fw-bold">🌱 EcoPackAI</span>
+
+        <div class="ms-auto">
+            <button class="btn btn-light me-2" onclick="showSection('home')">Home</button>
+            <button class="btn btn-light me-2" onclick="showSection('recommend')">Recommendation</button>
+            <button class="btn btn-light me-2" onclick="loadHistory(); showSection('history')">History</button>
+            <button class="btn btn-warning fw-bold" onclick="loadDashboard(); showSection('dashboard')">
+                Dashboard
+            </button>
+            
+        </div>
+    </div>
+</nav>
+
+<div class="container-fluid px-4 mt-4">
+
+
+<!-- ================= HOME ================= -->
+<div id="homeSection" class="section">
+
+    <div class="text-center mb-5">
+        <h1 class="fw-bold display-6">AI-Powered Sustainable Packaging Intelligence</h1>
+        <p class="lead mt-3">
+            Optimize Cost • Reduce CO₂ Emissions • Improve Sustainability
+        </p>
+        <p class="text-muted">
+            Data-driven packaging decisions aligned with ESG and environmental goals.
+        </p>
+    </div>
+
+    <div class="row text-center">
+
+        <div class="col-md-4">
+            <div class="card shadow p-4 h-100">
+                <div class="fs-1 mb-3">♻️</div>
+                <h5 class="fw-bold">Sustainability Optimization</h5>
+                <p>
+                    AI-driven material selection based on recyclability,
+                    biodegradability and carbon footprint.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow p-4 h-100">
+                <div class="fs-1 mb-3">📊</div>
+                <h5 class="fw-bold">Machine Learning Intelligence</h5>
+                <p>
+                    Predictive model evaluates fragility, moisture sensitivity,
+                    shelf life and environmental stress.
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card shadow p-4 h-100">
+                <div class="fs-1 mb-3">💰</div>
+                <h5 class="fw-bold">Cost & CO₂ Impact Analysis</h5>
+                <p>
+                    Compare top 5 materials with cost savings,
+                    CO₂ reduction and sustainability metrics.
+                </p>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="text-center mt-5">
+        <button class="btn btn-success btn-lg shadow"
+                onclick="showSection('recommend')">
+            Start AI Recommendation
+        </button>
+    </div>
+
+</div>
+
+
+<!-- ================= RECOMMENDATION ================= -->
+<div id="recommendSection" class="section d-none">
+
+    <div class="card shadow-lg">
+        <div class="card-header bg-success text-white fw-bold">
+            Product Details
+        </div>
+
+        <div class="card-body">
+            <form id="ecoForm" class="row g-3">
+
+                <div class="col-md-4">
+                    <label class="form-label">Product Category</label>
+                    <select class="form-select" id="category_id" required>
+                        <option value="">Select Category</option>
+                        {% for id, name in categories.items() %}
+                            <option value="{{ id }}">{{ name|capitalize }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Weight (grams)</label>
+                    <input type="number" id="weight_g" class="form-control" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Volume (cm³)</label>
+                    <input type="number" id="volume_cm3" class="form-control" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Fragility (1–5)</label>
+                    <input type="number" id="fragility" min="1" max="5" class="form-control" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Moisture Sensitivity (1–5)</label>
+                    <input type="number" id="moisture" min="1" max="5" class="form-control" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Temperature Sensitivity (1–5)</label>
+                    <input type="number" id="temperature" min="1" max="5" class="form-control" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Shelf Life (days)</label>
+                    <input type="number" id="shelf_life" class="form-control" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Product Price (INR)</label>
+                    <input type="number" id="price" class="form-control" required>
+                </div>
+
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-success btn-lg shadow">
+                        Get Recommendation
+                    </button>
+                </div>
+                
+
+            </form>
+        </div>
+    </div>
+
+    <div id="loadingSpinner" class="text-center mt-4 d-none">
+        <div class="spinner-border text-success"></div>
+        <p class="mt-2">Analyzing materials using AI...</p>
+    </div>
+
+    <div id="bestResult" class="alert alert-success mt-4 d-none text-center fw-bold"></div>
+
+    <div id="comparisonSection" class="mt-4 d-none">
+
+        <h4 class="mb-3 fw-bold">📊 Top 5 Material Comparison</h4>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped text-center align-middle">
+
+                <thead class="table-success">
+                    <tr>
+                        <th>#</th>
+                        <th>Material</th>
+                        <th>Suitability (%)</th>
+                        <th>Cost/kg (₹)</th>
+                        <th>CO₂/kg</th>
+                        <th>Recyclability %</th>
+                        <th>Biodegradability</th>
+                        <th>Total Cost (₹)</th>
+                        <th>Total CO₂ (kg)</th>
+                        <th>CO₂ Reduction %</th>
+                        <th>Cost Savings %</th>
+                    </tr>
+                </thead>
+
+                <tbody id="comparisonTableBody"></tbody>
+
+            </table>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- ================= HISTORY ================= -->
+<div id="historySection" class="section d-none">
+    <h3 class="fw-bold">Recommendation History</h3>
+
+    <table class="table table-bordered mt-3">
+        <thead class="table-success">
+            <tr>
+                <th>Product ID</th>
+                <th>Material</th>
+                <th>Suitability</th>
+                <th>Total Cost (₹)</th>
+                <th>Total CO₂ (kg)</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody id="historyTable"></tbody>
+    </table>
+</div>
+
+
+<!-- ================= DASHBOARD ================= -->
+<div id="dashboardSection" class="section d-none">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h3 class="fw-bold">📊 Material Performance Dashboard</h3>
+    </div>
+    <div class="text-end mb-3">
+    <button class="btn btn-danger shadow" onclick="exportDashboardPDF()">
+        Export Dashboard to PDF
+    </button>
+</div>
+
+    <!-- ================= TOP GRID ================= -->
+    <div class="row g-4">
+
+        <!-- LEFT SIDE: TABLE -->
+        <div class="col-xl-7 col-lg-7 col-md-12">
+            <div class="card shadow-lg p-4 h-100">
+                <h5 class="fw-bold text-center mb-3">
+                    Top 5 Material Comparison
+                </h5>
+
+                <div class="table-responsive" style="max-height:500px;">
+                    <table class="table table-bordered table-hover table-sm text-center align-middle">
+                        <thead class="table-success">
+                            <tr>
+                                <th>#</th>
+                                <th>Material</th>
+                                <th>Suitability %</th>
+                                <th>Cost/kg ₹</th>
+                                <th>CO₂/kg</th>
+                                <th>Recyclability %</th>
+                                <th>Biodegradability</th>
+                                <th>Total Cost ₹</th>
+                                <th>Total CO₂ kg</th>
+                                <th>CO₂ Red %</th>
+                                <th>Cost Save %</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dashboardTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDE: RADAR -->
+        <div class="col-xl-5 col-lg-5 col-md-12">
+            <div class="card shadow-lg p-4 h-100">
+                <h5 class="fw-bold text-center mb-3">
+                    Environmental Profile (Best Material)
+                </h5>
+                <canvas id="chartEnvironmental"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ================= SECOND ROW ================= -->
+    <div class="row g-4 mt-2">
+
+        <div class="col-xl-6 col-lg-6 col-md-12">
+            <div class="card shadow-lg p-4">
+                <h6 class="fw-bold text-center mb-3">Suitability (%)</h6>
+                <canvas id="chartSuitability"></canvas>
+            </div>
+        </div>
+
+        <div class="col-xl-6 col-lg-6 col-md-12">
+            <div class="card shadow-lg p-4">
+                <h6 class="fw-bold text-center mb-3">CO₂ Reduction (%)</h6>
+                <canvas id="chartCO2Reduction"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ================= THIRD ROW ================= -->
+    <div class="row g-4 mt-2">
+
+        <div class="col-xl-4 col-lg-4 col-md-12">
+            <div class="card shadow-lg p-4">
+                <h6 class="fw-bold text-center mb-3">Cost Savings (%)</h6>
+                <canvas id="chartCostSavings"></canvas>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-lg-4 col-md-12">
+            <div class="card shadow-lg p-4">
+                <h6 class="fw-bold text-center mb-3">Total Cost (₹)</h6>
+                <canvas id="chartTotalCost"></canvas>
+            </div>
+        </div>
+
+        <div class="col-xl-4 col-lg-4 col-md-12">
+            <div class="card shadow-lg p-4">
+                <h6 class="fw-bold text-center mb-3">Total CO₂ (kg)</h6>
+                <canvas id="chartTotalCO2"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+
+</body>
+</html>
